@@ -18,6 +18,7 @@ import com.codewithmuez.blog.entities.Post;
 import com.codewithmuez.blog.entities.User;
 import com.codewithmuez.blog.exceptions.ResourceNotFoundException;
 import com.codewithmuez.blog.payloads.PostDTO;
+import com.codewithmuez.blog.payloads.PostResponse;
 import com.codewithmuez.blog.repositories.CategoryRepository;
 import com.codewithmuez.blog.repositories.PostRepository;
 import com.codewithmuez.blog.repositories.UserRepository;
@@ -74,7 +75,7 @@ public class PostServiceImple implements PostService {
 	}
 
 	@Override
-	public List<PostDTO> getAllPosts(Integer pageNumber, Integer pageSize) {
+	public PostResponse getAllPosts(Integer pageNumber, Integer pageSize) {
 		// TODO Auto-generated method stub
 		Pageable p = PageRequest.of(pageNumber,pageSize);
 		
@@ -83,7 +84,14 @@ public class PostServiceImple implements PostService {
 		List<Post> posts = pagePost.getContent();
 		
 		List<PostDTO> postDTOs = posts.stream().map((post)->this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
-		return postDTOs;
+		PostResponse postResponse =new PostResponse();
+		postResponse.setContent(postDTOs);
+		postResponse.setPageNumber(pagePost.getNumber());
+		postResponse.setPageSize(pagePost.getSize());
+		postResponse.setTotalElements(pagePost.getTotalElements());
+		postResponse.setTotalPages(pagePost.getTotalPages());
+		postResponse.setLastPage(pagePost.isLast());
+		return postResponse;
 	}
 
 	@Override
@@ -95,21 +103,42 @@ public class PostServiceImple implements PostService {
 	}
 
 	@Override
-	public List<PostDTO> getPostByCategory(Integer categoryId) {
+	public PostResponse getPostByCategory(Integer categoryId,Integer pageNumber,Integer pageSize) {
 		// TODO Auto-generated method stub
+		Pageable p = PageRequest.of(pageNumber, pageSize);
 		Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("Category", "category Id", categoryId));
-		List<Post> posts = this.postRepository.findByCategory(category);
+		Page<Post> pagePost = this.postRepository.findByCategory(category,p);
+		List<Post> posts = pagePost.getContent();
 		List<PostDTO> postDTOs = posts.stream().map((post)->this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
-		return postDTOs;
+		
+		PostResponse postResponse = new PostResponse();
+		
+		postResponse.setContent(postDTOs);
+		postResponse.setPageNumber(pagePost.getNumber());
+		postResponse.setPageSize(pagePost.getSize());
+		postResponse.setTotalElements(pagePost.getTotalElements());
+		postResponse.setTotalPages(pagePost.getTotalPages());
+		postResponse.setLastPage(pagePost.isLast());
+		return postResponse;
 	}
 
 	@Override
-	public List<PostDTO> getAllPostByUser(Integer userId) {
+	public PostResponse getAllPostByUser(Integer userId,Integer pageNumber,Integer pageSize) {
 		// TODO Auto-generated method stub
+		Pageable p = PageRequest.of(pageNumber, pageSize);
 		User user =this.userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "user Id", userId));
-		List<Post> posts = this.postRepository.findByUser(user);
+		Page<Post> pagePost = this.postRepository.findByUser(user,p);
+		List<Post> posts = pagePost.getContent();
 		List<PostDTO> postDTOs = posts.stream().map((post)->this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
-		return postDTOs;
+PostResponse postResponse = new PostResponse();
+		
+		postResponse.setContent(postDTOs);
+		postResponse.setPageNumber(pagePost.getNumber());
+		postResponse.setPageSize(pagePost.getSize());
+		postResponse.setTotalElements(pagePost.getTotalElements());
+		postResponse.setTotalPages(pagePost.getTotalPages());
+		postResponse.setLastPage(pagePost.isLast());
+		return postResponse;
 	}
 
 	@Override

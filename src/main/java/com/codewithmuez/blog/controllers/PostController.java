@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.codewithmuez.blog.entities.Post;
 import com.codewithmuez.blog.payloads.ApiResponse;
 import com.codewithmuez.blog.payloads.PostDTO;
+import com.codewithmuez.blog.payloads.PostResponse;
 import com.codewithmuez.blog.services.PostService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -61,15 +62,21 @@ public class PostController {
 	}
 	
 	@GetMapping("/user/{userId}/")
-	public ResponseEntity<List<PostDTO>> getAllPostsByUser(@PathVariable Integer userId){
-		List<PostDTO> posts =  this.postService.getAllPostByUser(userId);
-		return new ResponseEntity<List<PostDTO>>(posts,HttpStatus.OK);
+	public ResponseEntity<PostResponse> getAllPostsByUser(
+			@PathVariable Integer userId,
+			@RequestParam(value = "pageNumber",defaultValue = "1",required = false) Integer pageNumber,
+			@RequestParam(value = "pageSize",defaultValue = "5",required = false) Integer pageSize){
+		PostResponse posts =  this.postService.getAllPostByUser(userId,pageNumber,pageSize);
+		return new ResponseEntity<PostResponse>(posts,HttpStatus.OK);
 	}
 	
 	@GetMapping("/category/{categoryId}/")
-	public ResponseEntity<List<PostDTO>> getAllPostsByCategory(@PathVariable Integer categoryId){
-		List<PostDTO> posts =  this.postService.getPostByCategory(categoryId);
-		return new ResponseEntity<List<PostDTO>>(posts,HttpStatus.OK);
+	public ResponseEntity<PostResponse> getAllPostsByCategory(
+			@PathVariable Integer categoryId,
+			@RequestParam(value = "pageNumber",defaultValue = "1",required =false) Integer pageNumber,
+			@RequestParam(value = "pageSize",defaultValue = "5",required =false) Integer pageSize){
+		PostResponse posts =  this.postService.getPostByCategory(categoryId,pageNumber,pageSize);
+		return new ResponseEntity<PostResponse>(posts,HttpStatus.OK);
 	}
 	
 	@GetMapping("/{postId}/")
@@ -79,12 +86,12 @@ public class PostController {
 		
 	}
 	@GetMapping("/getAllPosts/")
-	public ResponseEntity<List<PostDTO>> getAllPosts(
+	public ResponseEntity<PostResponse> getAllPosts(
 			@RequestParam(value = "pageNumber",defaultValue = "1",required =false) Integer pageNumber,
 			@RequestParam(value = "pageSize",defaultValue = "5",required =false) Integer pageSize
 			){
-		List<PostDTO> posts =  this.postService.getAllPosts(pageNumber,pageSize);
-		return new ResponseEntity<List<PostDTO>>(posts,HttpStatus.OK);
+		PostResponse posts =  this.postService.getAllPosts(pageNumber,pageSize);
+		return new ResponseEntity<PostResponse>(posts,HttpStatus.OK);
 	}
 	@GetMapping("search/{title}")
 	public ResponseEntity<List<PostDTO>> getAllPostByTitle(@PathVariable String title){

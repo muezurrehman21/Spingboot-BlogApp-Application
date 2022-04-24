@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.codewithmuez.blog.entities.Post;
 import com.codewithmuez.blog.payloads.PostDTO;
+import com.codewithmuez.blog.payloads.PostResponse;
 
 @Service
 public interface PostService {
@@ -22,16 +23,16 @@ public interface PostService {
 	void deletePost(Integer postId);
 	
 //	get All posts
-	List<PostDTO> getAllPosts(Integer pageNumber, Integer pageSize);
+	PostResponse getAllPosts(Integer pageNumber, Integer pageSize);
 	
 //	get Single post
 	PostDTO getSinglePost(Integer postId);
 	
 //	get All post By Category
-	List<PostDTO> getPostByCategory(Integer categoryId);
+	PostResponse getPostByCategory(Integer categoryId,Integer pageNumber,Integer pageSize);
 	
 //	get All post By User
-	List<PostDTO> getAllPostByUser(Integer userId);
+	PostResponse getAllPostByUser(Integer userId,Integer pageNumber,Integer pageSize);
 	
 //	get Search Post
 	List<PostDTO> searchPosts(String keywords);
