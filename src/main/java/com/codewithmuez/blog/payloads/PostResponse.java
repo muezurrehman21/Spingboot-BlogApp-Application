@@ -2,6 +2,8 @@ package com.codewithmuez.blog.payloads;
 
 import java.util.List;
 
+import com.codewithmuez.blog.entities.Post;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
