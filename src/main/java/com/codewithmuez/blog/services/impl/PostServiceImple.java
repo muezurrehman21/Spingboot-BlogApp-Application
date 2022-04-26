@@ -149,7 +149,7 @@ PostResponse postResponse = new PostResponse();
 
 	@Override
 	public List<PostDTO> searchPosts(String keywords) {
-		List<Post> getPostByTitle = this.postRepository.findByTitleContaining(keywords);
+		List<Post> getPostByTitle = this.postRepository.findMyTitle("%"+keywords+"%");
 		List<PostDTO> postDTOs = getPostByTitle.stream().map((post)->this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
 		return postDTOs;
 	}
