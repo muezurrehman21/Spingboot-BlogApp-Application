@@ -136,7 +136,7 @@ public class PostServiceImple implements PostService {
 		Page<Post> pagePost = this.postRepository.findByUser(user,p);
 		List<Post> posts = pagePost.getContent();
 		List<PostDTO> postDTOs = posts.stream().map((post)->this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
-PostResponse postResponse = new PostResponse();
+		PostResponse postResponse = new PostResponse();
 		
 		postResponse.setContent(postDTOs);
 		postResponse.setPageNumber(pagePost.getNumber());
@@ -152,6 +152,18 @@ PostResponse postResponse = new PostResponse();
 		List<Post> getPostByTitle = this.postRepository.findMyTitle("%"+keywords+"%");
 		List<PostDTO> postDTOs = getPostByTitle.stream().map((post)->this.modelMapper.map(post, PostDTO.class)).collect(Collectors.toList());
 		return postDTOs;
+	}
+
+	@Override
+	public PostDTO updatePost(PostDTO postDTO, Integer postId) {
+		Post post = this.postRepository.findById(postId).orElseThrow(()->new ResourceNotFoundException("Post", "Post Id", postId));
+		post.setContent(postDTO.getContent());
+		post.setTitle(postDTO.getTitle());
+		post.setAddedDate(new Date());
+		post.setImageName(postDTO.getImageName());
+		Post savePost = this.postRepository.save(post);
+		PostDTO updatedPost = this.modelMapper.map(savePost, PostDTO.class);
+		return updatedPost;
 	}
 
 }

@@ -36,4 +36,6 @@ public interface PostService {
 	
 //	get Search Post
 	List<PostDTO> searchPosts(String keywords);
+	
+	PostDTO updatePost(PostDTO postDTO, Integer postId);
 }

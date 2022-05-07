@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.codewithmuez.blog.entities.User;
 import com.codewithmuez.blog.exceptions.ResourceNotFoundException;
+import com.codewithmuez.blog.payloads.CategoryDTO;
 import com.codewithmuez.blog.payloads.UserDTO;
 import com.codewithmuez.blog.repositories.UserRepository;
 import com.codewithmuez.blog.services.UserService;
@@ -48,13 +49,13 @@ public class UserServiceImpl implements UserService {
 		return this.userToDTO(user);
 	}
 
-	@Override
-	public List<UserDTO> getAllUsers() {
-		List<User> users = this.userRepository.findAll();
-		List<UserDTO> userDTOs = users.stream().map(user->this.userToDTO(user)).collect(Collectors.toList());
-		return userDTOs;
-	}
-
+//	@Override
+//	public List<UserDTO> getAllUsers() {
+//		List<User> users = this.userRepository.findAll();
+//		List<UserDTO> userDTOs = users.stream().map(user->this.userToDTO(user)).collect(Collectors.toList());
+//		return userDTOs;
+//	}
+	
 	@Override
 	public void deleteUser(Integer userId) {
 		// TODO Auto-generated method stub
@@ -95,6 +96,14 @@ public class UserServiceImpl implements UserService {
 	private UserDTO userToDTO(User user) {
 		UserDTO userDTO = this.modelMapper.map(user, UserDTO.class);
 		return userDTO;
+	}
+
+	@Override
+	public List<UserDTO> getAllUsers() {
+		// TODO Auto-generated method stub
+		List<User> users =	this.userRepository.findAll();
+		List<UserDTO> userDTOs = users.stream().map(user -> this.userToDTO(user)).collect(Collectors.toList());
+		return userDTOs;
 	}
 
 }
