@@ -1,6 +1,5 @@
 package com.codewithmuez.blog.payloads;
 
-import javax.persistence.Column;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 

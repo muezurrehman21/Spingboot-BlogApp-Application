@@ -19,9 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.codewithmuez.blog.config.AppConstant;
-import com.codewithmuez.blog.entities.Post;
 import com.codewithmuez.blog.payloads.ApiResponse;
 import com.codewithmuez.blog.payloads.PostDTO;
 import com.codewithmuez.blog.payloads.PostResponse;

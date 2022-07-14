@@ -1,8 +1,15 @@
 package com.codewithmuez.blog.payloads;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.codewithmuez.blog.entities.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -32,5 +39,20 @@ public class UserDTO {
 	@NotEmpty
 	@Size(min = 3,message = "about must be min 4 of characters")
 	private String about;
+	
+	private Set<RolesDTO> roles = new HashSet<>();
+
+	@JsonIgnore
+	public String getPassword() {
+		return password;
+	}
+
+	
+	@JsonProperty
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 	
 }
